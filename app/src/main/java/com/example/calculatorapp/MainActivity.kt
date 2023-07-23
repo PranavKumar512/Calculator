@@ -1,5 +1,8 @@
 package com.example.calculatorapp
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -20,22 +23,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import org.mariuszgromada.math.mxparser.Expression
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.calculatorapp.ui.theme.CalculatorAppTheme
+import org.mariuszgromada.math.mxparser.Expression
 
 class MainActivity : ComponentActivity() {
+	@SuppressLint("SourceLockedOrientationActivity")
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContent {
+			val context = LocalContext.current
+			(context as? Activity)?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 			CalculatorAppTheme {
 				// A surface container using the 'background' color from the theme
 				Surface(
@@ -56,7 +63,7 @@ fun FinalApp() {
 
 @Composable
 fun Greeting() {
-	var text by remember { mutableStateOf("0") }
+	var text by rememberSaveable { mutableStateOf("0") }
 
 	Column {
 		Text(
